@@ -83,22 +83,6 @@ export default class HomeScreen extends React.Component {
         await firebase.database().ref('/users/' + User.phone).update(updates)
         //call the push notification 
     }
-
-    sendNotification(){
-        var messages = [];
-        messages.push({
-            'to': 'ExponentPushToken[Bid_HTE02jBz77aARfoI2R]',
-            'body': 'hello test'
-        })
-        fetch('https://exp.host/--/api/v2/push/send', {
-            'method': 'POST',
-            'headers': {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(messages)
-        });
-    }
     
     render(){
         return(

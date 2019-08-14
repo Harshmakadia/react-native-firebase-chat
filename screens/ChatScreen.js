@@ -54,6 +54,7 @@ export default class ChatScreen extends React.Component {
             'to': token,
             'body': message,
             'sound': 'default',
+            'subtitle': `Message from ${User.name}`
         })
         fetch('https://exp.host/--/api/v2/push/send', {
             'method': 'POST',
@@ -65,7 +66,6 @@ export default class ChatScreen extends React.Component {
         });
     }
    
-
     handleChange = key => val => {
         this.setState({ [key]: val });
     }
