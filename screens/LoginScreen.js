@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput,Image,KeyboardAvoidingView,
-TouchableOpacity, Alert, AsyncStorage
-} from 'react-native';
+import { StyleSheet, View, TextInput,Image,KeyboardAvoidingView, Dimensions,
+TouchableOpacity, Alert, AsyncStorage} from 'react-native';
 import User from '../User';
 import styles from '../constants/styles';
 import firebase from 'firebase';
-import {Toast} from 'native-base';
+import { Container, Header, Content, Text,Form, Item, Input, Label, Button } from 'native-base';
 
 export default class LoginScreen extends React.Component {
 
@@ -41,30 +40,37 @@ export default class LoginScreen extends React.Component {
   }
 
   render() {
+    const {height: screenHeight} = Dimensions.get('window');
     return (
-    <KeyboardAvoidingView behavior="padding" enabled style={{flex: 1}}>
-        <View style={styles.container}>
-            <Text style={{fontSize:20}}>Hello World 🤪</Text>
+      <Container>
+        <Content padder style={{marginLeft:10, marginRight:10}} scrollEnabled={false}>
+          <View style={{flex: 1, height: screenHeight, justifyContent: 'center'}}>
+            <Text style={{fontSize:20, marginBottom:10, alignSelf:'center'}}>Hello World 🤪</Text>
             <Image source={require('../images/party-popper.png')}
-                style={{height:64, width:64, margin:5}}
+                style={{height:64, width:64, margin:5, alignSelf:'center'}}
             />
-            <TextInput
-            value ={this.state.phone}
-            placeholder="Phone Number"
-            style={styles.input}
-            onChangeText={this.handleChange('phone')}
-            />
-            <TextInput
-            value ={this.state.name}
-            placeholder="Name"
-            style={styles.input}
-            onChangeText={this.handleChange('name')}
-            />
-            <TouchableOpacity onPress={this.submitForm}>
-            <Text style={styles.btnText}>Enter</Text>
-            </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+            <Form>
+            <Item floatingLabel>
+              <Label>Mobile No.</Label>
+              <Input keyboardType = 'numeric' 
+                onChangeText={this.handleChange('phone')}
+                value ={this.state.phone}
+              />
+            </Item>
+            <Item floatingLabel>
+              <Label>Name</Label>
+              <Input
+                value ={this.state.name}
+                onChangeText={this.handleChange('name')}
+              />
+            </Item>
+            <Button block onPress={this.submitForm} style={{marginTop: 10}}>
+              <Text>Login</Text>
+            </Button>
+          </Form>
+          </View>
+        </Content>
+      </Container>
     );
   }
 }
