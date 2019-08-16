@@ -26,7 +26,7 @@ export default class LoginScreen extends React.Component {
        Alert.alert('Error', 'Wrong phone number')
     }
     else if(this.state.name.length < 3){
-      Alert.alert('Error', 'Wrong name')
+      Alert.alert('Error', 'Name must be Min 3 Chars')
     }
     else{
       // save user data here
@@ -50,24 +50,24 @@ export default class LoginScreen extends React.Component {
                 style={{height:64, width:64, margin:5, alignSelf:'center'}}
             />
             <Form>
-            <Item floatingLabel>
-              <Label>Mobile No.</Label>
-              <Input keyboardType = 'numeric' 
-                onChangeText={this.handleChange('phone')}
-                value ={this.state.phone}
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>Name</Label>
-              <Input
-                value ={this.state.name}
-                onChangeText={this.handleChange('name')}
-              />
-            </Item>
-            <Button block onPress={this.submitForm} style={{marginTop: 10}}>
-              <Text>Login</Text>
-            </Button>
-          </Form>
+              <Item floatingLabel>
+                <Label>Mobile No.</Label>
+                <Input keyboardType = 'numeric' 
+                  onChangeText={this.handleChange('phone')}
+                  value ={this.state.phone}
+                />
+              </Item>
+              <Item floatingLabel>
+                <Label>Name</Label>
+                <Input
+                  value ={this.state.name}
+                  onChangeText={this.handleChange('name')}
+                />
+              </Item>
+              <Button block onPress={this.submitForm} style={{marginTop: 10}}>
+                <Text>Login</Text>
+              </Button>
+            </Form>
           </View>
         </Content>
       </Container>

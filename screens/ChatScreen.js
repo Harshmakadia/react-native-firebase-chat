@@ -4,6 +4,7 @@ import {SafeAreaView,FlatList, Dimensions,KeyboardAvoidingView,
 import styles from '../constants/styles';
 import firebase from 'firebase';
 import User from '../User';
+import { GiftedChat } from 'react-native-gifted-chat'
 
 export default class ChatScreen extends React.Component {
     static navigationOptions = ({navigation}) => {
@@ -19,8 +20,25 @@ export default class ChatScreen extends React.Component {
             },
             textMessage: '',
             messageList: [],
-            otherMemberExpo: null
+            giftedMessages: [],
+            otherMemberExpo: null,
         }
+    }
+
+    generateChat(messageList){
+        const giftedMessages = [];
+        for(let i=0; i < messageList.length; i++){
+            giftedMessages.push({
+                _id: messageList[i].time,
+                text: messageList[i].message,
+                createdAt: new Date(messageList[i].time),
+                user: {
+                    _id: messageList[i].from,
+                    name: 'Hello world'
+                },
+            })
+        }
+        this.setState({giftedMessages});
     }
 
    
@@ -32,8 +50,9 @@ export default class ChatScreen extends React.Component {
                 return{
                     messageList: [...prevState.messageList, value.val()]
                 }
-            })
-        })
+            }, () => this.generateChat(this.state.messageList));
+        });
+
 
         let dBref = firebase.database().ref('/users/' + this.state.person.phone)
         dBref.on("value", function(snapshot) {
@@ -81,12 +100,12 @@ export default class ChatScreen extends React.Component {
         return result;
     }
 
-    sendMessage = async () => {
-        if(this.state.textMessage.length > 0){
+    sendMessage = async (messsages) => {
+        if(messsages.length > 0){
             let msgId = firebase.database().ref('message').child(User.phone).child(this.state.person.phone).push().key;
             let updates = {};
             let message = {
-                message: this.state.textMessage,
+                message: messsages[0].text,
                 time: firebase.database.ServerValue.TIMESTAMP,
                 from: User.phone
             }
@@ -95,9 +114,8 @@ export default class ChatScreen extends React.Component {
             firebase.database().ref().update(updates);
 
             if(this.state.otherMemberExpo !== null){
-                this.sendNotification(this.state.textMessage, this.state.otherMemberExpo);
+                this.sendNotification(messsages[0].text, this.state.otherMemberExpo);
             }
-            this.setState({ textMessage : ''});
         }
     }
 
@@ -123,27 +141,17 @@ export default class ChatScreen extends React.Component {
     render() {
         let {height, width} = Dimensions.get('window');
         return (
-            <KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
-                <SafeAreaView>
-                    <FlatList 
-                        style={{padding:10, height: height * 0.8}}
-                        data={this.state.messageList}
-                        renderItem={this.renderRow}
-                        keyExtractor={(item,index) => index.toString()}
-                    />   
-                    <View style={{flexDirection:'row', alignItems:'center', marginHorizontal: 5}}>
-                        <TextInput
-                            style={styles.input}
-                            value={this.state.textMessage}
-                            placeholder='Jot down message'
-                            onChangeText={this.handleChange('textMessage')}
-                        />
-                        <TouchableOpacity onPress={this.sendMessage} style={{paddingBottom:10, marginLeft:5}}>
-                            <Text style={styles.btnText}>Send</Text>
-                        </TouchableOpacity>
-                    </View>
-                </SafeAreaView>
-            </KeyboardAvoidingView>
+            <GiftedChat
+                scrollToBottom
+                inverted={false}
+                onSend={messages => this.sendMessage(messages)}
+                isAnimated
+                messages={this.state.giftedMessages}
+                user={{
+                _id: User.phone,
+                name: User.name
+            }}
+        />
         );
     }
 }

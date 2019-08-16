@@ -1,9 +1,10 @@
 import React from 'react';
 import {SafeAreaView, Alert,
-View, Text, TextInput, TouchableOpacity, AsyncStorage} from 'react-native';
+View, TextInput, TouchableOpacity, AsyncStorage, Dimensions} from 'react-native';
 import firebase from 'firebase';
 import User from '../User';
 import styles from '../constants/styles';
+import { Container, Header, Content, Button, Text } from 'native-base';
 
 export default class ProfileScreen extends React.Component {
 
@@ -40,22 +41,27 @@ export default class ProfileScreen extends React.Component {
     }
 
     render(){
+        const {height: screenHeight} = Dimensions.get('window');
         return(
-            <SafeAreaView style={styles.container}>
-                <Text style={{fontSize:20}}> {User.phone} </Text>
-                <Text style={{fontSize:20}}> {User.name} </Text>
-                <TextInput
-                    style={styles.input}
-                    value={this.state.name}
-                    onChangeText={this.handleChange('name')}
-                />
-                <TouchableOpacity onPress={this.changeName}>
-                    <Text style={styles.btnText}>Change Name</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this._logOut}>
-                    <Text style={styles.btnText}>LogOut</Text>
-                </TouchableOpacity>
-            </SafeAreaView>
+            <Container>
+                <Content padder style={{marginLeft:10, marginRight:10}} scrollEnabled={false}>
+                    <View style={{flex: 1,height: screenHeight,justifyContent: 'center'}}>
+                        <Text style={{fontSize:20}}> {User.phone} </Text>
+                        <Text style={{fontSize:20}}> {User.name} </Text>
+                        <TextInput
+                            style={styles.input}
+                            value={this.state.name}
+                            onChangeText={this.handleChange('name')}
+                        />
+                        <Button success onPress={this.changeName} style={{marginTop: 10}}>
+                            <Text> Change Name </Text>
+                        </Button>
+                        <Button danger onPress={this._logOut} style={{marginTop: 10}}>
+                            <Text> LogOut </Text>
+                        </Button>
+                    </View>
+                </Content>
+            </Container>
         )
     }
 }
