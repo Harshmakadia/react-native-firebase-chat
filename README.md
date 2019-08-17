@@ -23,3 +23,8 @@ export default firebaseConfig;
 2. Run `npm install`
 
 3. Start the app `npm start`
+
+## Libraries Used
+1. [React Native Gifted Chat](https://github.com/FaridSafi/react-native-gifted-chat)
+2. [NativeBase](https://nativebase.io/)
+
