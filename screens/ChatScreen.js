@@ -68,8 +68,8 @@ export default class ChatScreen extends React.Component {
    }
 
    componentWillUnmount() {
-    const x = firebase.database().ref('messages').child(User.phone).child(this.state.person.phone);
-    x.off();
+        const x = firebase.database().ref('messages').child(User.phone).child(this.state.person.phone);
+        x.off();
     };
 
    sendNotification(message, token){
@@ -88,6 +88,7 @@ export default class ChatScreen extends React.Component {
             },
             body: JSON.stringify(messages)
         });
+        console.log("Notification sent")
     }
    
     handleChange = key => val => {

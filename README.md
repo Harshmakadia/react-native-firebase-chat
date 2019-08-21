@@ -24,6 +24,8 @@ export default firebaseConfig;
 
 3. Start the app `npm start`
 
+4. Expo DevTools is running at http://localhost:19002
+
 ## Libraries Used
 1. [React Native Gifted Chat](https://github.com/FaridSafi/react-native-gifted-chat)
 2. [NativeBase](https://nativebase.io/)
